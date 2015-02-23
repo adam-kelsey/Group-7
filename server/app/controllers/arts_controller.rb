@@ -42,7 +42,11 @@ private
       :description,
       :artist,
       :dimensions,
-      :image_url
+      :image_url,
+      :bid_amount,
+      :bidder,
+      :total_amount,
+      :bid
     )
   end
 end

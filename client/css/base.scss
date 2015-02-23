@@ -5,6 +5,10 @@ body {
   font-family: $font;
 }
 
+h1, .h1 {
+font-size: 64px;
+}
+
 .loginContainer {
   margin-top: 10%;
   display: block;
@@ -121,4 +125,8 @@ section {
 
 div.your-clock {
   margin-left: 5%;
+}
+
+a:hover, a:focus {
+  text-decoration: none;
 }

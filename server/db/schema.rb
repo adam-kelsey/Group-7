@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150220224148) do
+ActiveRecord::Schema.define(version: 20150222224731) do
 
   create_table "arts", force: :cascade do |t|
     t.string   "title",       limit: 255
@@ -46,5 +46,4 @@ ActiveRecord::Schema.define(version: 20150220224148) do
   add_index "bids", ["auction_id"], name: "index_bids_on_auction_id", using: :btree
 
   add_foreign_key "auctions", "arts"
-  add_foreign_key "bids", "auctions"
 end

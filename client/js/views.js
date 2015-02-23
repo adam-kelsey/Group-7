@@ -65,20 +65,59 @@ var ArtView = Backbone.View.extend({
     console.log('delete sent to server!')
   },
   bidOnListing: function (e) {
-    e.preventDefault()
-    var newBid = {
-      amount: this.$el.find('.bidAmount').attr('ref'),
-      title: this.$el.find('.title').attr('ref'),
+    // e.preventDefault()
+
+    var bidsArr = this.model.attributes.bids
+    bidsArr.push(this.model.attributes.bid_amount)
+    console.log(bidsArr)
+
+    var total = bidsArr.reduce(function(a, b) {
+      return a + b;
+    });
+
+    console.log(total)
+
+    this.model.set({
+      bid: bidsArr,
       bidder: localStorage.name,
-      time: moment(),
-      auction_id: this.$el.find('article').eq(0).data('artid')
-    }
-    console.log(this.el)
-    var newModelBid = new BidModel(newBid)
-    var bidPromise = newModelBid.save();
-    $.when(bidPromise).then(function(val) {
-      console.log(val)
+      total_amount: total
     })
+
+    this.model.save();
+
+    var self = this
+
+    var start = self.model.attributes.starting
+
+    var theTotal = total;
+    $('.bidItem').click(function(){
+      newTotal = self.model.attributes.bid_amount
+
+      console.log(newTotal)
+      theTotal += newTotal;
+        self.model.set({
+          bid: bidsArr,
+          bidder: localStorage.name,
+          total_amount: total
+        })
+      $('.total_amount').text("Total: "+theTotal);
+    });
+
+    $('.total_amount').text("Total: "+theTotal);
+
+    // var newBid = {
+    //   amount: this.$el.find('.bidAmount').attr('ref'),
+    //   title: this.$el.find('.title').attr('ref'),
+    //   bidder: localStorage.name,
+    //   time: moment(),
+    //   auction_id: this.$el.find('article').eq(0).data('artid')
+    // }
+    // console.log(this.el)
+    // var newModelBid = new BidModel(newBid)
+    // var bidPromise = newModelBid.save();
+    // $.when(bidPromise).then(function(val) {
+    //   console.log(val)
+    // })
     console.log(this.$el.find('article').eq(0).data('artid'))
   }
 });
@@ -121,7 +160,7 @@ var AppView = Backbone.View.extend({
       image_url: $('#newProduct').find('input[name="newImage"]').val(),
       dimensions: $('#newProduct').find('input[name="newDimensions"]').val(),
       startingbid: $('#newProduct').find('input[name="newStartingBid"]').val(),
-      amount: $('#newProduct').find('input[name="bidAmount"]').val(),
+      bid_amount: parseInt($('#newProduct').find('input[name="bidAmount"]').val()),
       endx: $( ".newEndx option:selected" ).attr('ref'),
     };
 
@@ -133,13 +172,14 @@ var AppView = Backbone.View.extend({
     var artPromise = newModelArt.save();
     // var artid = newModelArt.get("id");
     // newModelArt.attributes.id = artid;
-    this.collection.add(newModelArt)
+    // this.collection.add(newModelArt)
     var self = this
     $.when(artPromise).then(function(val) {
       console.log(val)
       var artid = newModelArt.get("id");
       newModelArt.attributes.id = artid;
-      newModelAuction.save();
+      self.collection.add(newModelArt)
+      // newModelAuction.save();
       self.addOneListing(newModelArt); // alternative method
     })
 
@@ -152,7 +192,7 @@ var AppView = Backbone.View.extend({
   },
   addOneListing: function (listing, idx, arr) {
     var artView = new ArtView({model: listing})
-      this.$el.append(artView.render().el)
+    this.$el.append(artView.render().el)
   },
   addAllListings: function () {
     _.each(this.collection.models, this.addOneListing, this)

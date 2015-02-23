@@ -14,7 +14,8 @@ var ArtModel = Backbone.Model.extend({
       dimensions: "generic dimensions",
       startingbid: "generic amount",
       amount: "generic amount",
-      auction: ""
+      auction: "",
+      bids: []
     };
   },
   initialize: function () {

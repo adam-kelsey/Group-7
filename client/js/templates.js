@@ -15,8 +15,13 @@ template.homeItem = [
   '<div class="your-clock"></div>',
   '<button class="bidItem btn btn-default"><i class="fa fa-hand-o-up"></i> Bid</button>',
   '<h3><%= artist %></h3>',
+  '<h3><%= startingbid %></h3>',
+  '<h3 class="bidder" ref="<%= bidder %>"><%= bidder %></h3>',
+  '<h3 class="total_amount" ref="<%= total_amount %>">$<%= total_amount %></h3>',
+
+  '<h3 class="bidAmount" ref="<%= bid_amount %>">$<%= bid_amount %></h3>',
+
   // '<h3>$<%= startingbid %></h3>',
-  '<h3 class="bidAmount" ref="<%= amount %>">$<%= amount %></h3>',
   '<p><%= description %></p>',
   '<p><%= dimensions %></p>',
   '<button class="deleteItem btn btn-default btn-sm">Delete Item</button>',
